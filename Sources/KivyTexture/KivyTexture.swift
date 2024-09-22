@@ -86,6 +86,10 @@ func cgPixels(imageRef: CGImage) -> (UnsafeMutablePointer<UInt8>, Int) {
 }
 
 
+public protocol KivyTextureProtocol {
+	func texture() -> PyPointer
+}
+
 
 public struct KivyTexture {
 	
@@ -159,10 +163,6 @@ public struct KivyTexture {
 }
 
 
-
-public protocol KivyTextureProtocol {
-	func texture() -> PyPointer
-}
 
 extension CGImage: KivyTextureProtocol {
 	public func texture() -> PyPointer {
