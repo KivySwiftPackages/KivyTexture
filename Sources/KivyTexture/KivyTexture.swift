@@ -27,7 +27,6 @@ from kivy.graphics.texture import texture_create
 	} else {
 		PyErr_Print()
 	}
-	pyPrint(dict)
 	
 	return dict
 }
