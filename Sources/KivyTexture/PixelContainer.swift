@@ -8,10 +8,10 @@
 import Foundation
 import PySwiftCore
 import PythonCore
-import PyEncode
+import PySerializing
 import PyUnpack
 
-class PixelContainer: PyEncodable {
+class PixelContainer: PySerialize {
 	let data: UnsafeMutablePointer<UInt8>
 	//let width: Int
 	//let height: Int

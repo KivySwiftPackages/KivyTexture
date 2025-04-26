@@ -8,10 +8,22 @@ import PythonCore
 import CoreGraphics
 import PyCallable
 import PyUnpack
-import PyEncode
+import PySerializing
 
 
-
+fileprivate extension PyPointer {
+    public func callAsFunction<A>(_ a: A) throws -> PyPointer where A: PySerialize {
+        let arg = a.pyPointer
+        guard let result = PyObject_CallOneArg(self, arg) else {
+            PyErr_Print()
+            Py_DecRef(arg)
+            throw PythonError.call
+        }
+        Py_DecRef(arg)
+        
+        return result
+    }
+}
 
 
 
@@ -103,7 +115,7 @@ public struct KivyTexture {
 	public let data: PyPointer
 	
 	public init(width: Int, height: Int) {
-		data = try! Self.texture_create([width, height])
+        data = try! Self.texture_create([width,height])
 	}
 	
 	public init(cg: CGImage) {
