@@ -6,12 +6,14 @@
 //
 
 import Foundation
-import PySwiftCore
-import PythonCore
+import PySwiftKit
+import PySwiftObject
 import PySerializing
 import PyUnpack
+import PySwiftWrapper
 
-class PixelContainer: PySerialize {
+@PyClass(bases: [.buffer])
+class PixelContainer: PySerialize, PyTypeBufferProtocol {
 	let data: UnsafeMutablePointer<UInt8>
 	//let width: Int
 	//let height: Int
@@ -28,20 +30,29 @@ class PixelContainer: PySerialize {
 		self.capacity = capacity
 	}
 	deinit {
-		data.deallocate()
+        data.deallocate()
 	}
 	
+    static func buffer_procs() -> UnsafeMutablePointer<PyBufferProcs> {
+        .init(&PyBuffer)
+    }
+    
 	static var PyBuffer: PyBufferProcs = .init(
 		bf_getbuffer: { s, buffer, rw in
 			let cls: PixelContainer = UnPackPyPointer(from: s)
-			return PyBuffer_FillInfo(
-				buffer,
-				s,
-				cls.data,
-				cls.capacity,
-				0,
-				rw
-			)
+//			return PyBuffer_FillInfo(
+//				buffer,
+//				s,
+//				cls.data,
+//				cls.capacity,
+//				0,
+//				rw
+//			)
+            var itemsize = 1
+            var size = cls.capacity
+           // cls.data.fill_info(buffer: buffer!, size: &size, itemsize: &itemsize)
+            
+            return 0
 		},
 		bf_releasebuffer: nil
 	)

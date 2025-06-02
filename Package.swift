@@ -3,6 +3,17 @@
 
 import PackageDescription
 
+
+let local = false
+
+let pykit_package: Package.Dependency = if local {
+    .package(path: ".../PySwiftKit")
+} else {
+    .package(url: "https://github.com/KivySwiftLink/PySwiftKit", from: .init(311, 0, 0))
+}
+
+let pykit: Target.Dependency = .product(name: "SwiftonizeModules", package: "PySwiftKit")
+
 let package = Package(
     name: "KivyTexture",
 	platforms: [.iOS(.v13)],
@@ -13,10 +24,7 @@ let package = Package(
             targets: ["KivyTexture"]),
     ],
 	dependencies: [
-		.package(url: "https://github.com/KivySwiftLink/PySwiftKit", .upToNextMajor(from: .init(311, 0, 0))),
-		.package(url: "https://github.com/KivySwiftLink/PythonCore", .upToNextMajor(from: .init(311, 0, 0))),
-		//.package(path: "../SwiftonizePlugin")
-		.package(url: "https://github.com/PythonSwiftLink/SwiftonizePlugin", .upToNextMajor(from: .init(0, 1, 0)))
+        pykit_package,
 	],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -25,10 +33,10 @@ let package = Package(
 			name: "KivyTexture",
 			dependencies: [
 				.product(name: "SwiftonizeModules", package: "PySwiftKit"),
-				.product(name: "PythonCore", package: "PythonCore")
+				//.product(name: "PythonCore", package: "PythonCore")
 			],
 			plugins: [
-				.plugin(name: "Swiftonize", package: "SwiftonizePlugin"),
+				//.plugin(name: "Swiftonize", package: "SwiftonizePlugin"),
 			]
 		),
         .testTarget(
