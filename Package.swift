@@ -9,7 +9,7 @@ let local = false
 let pykit_package: Package.Dependency = if local {
     .package(path: ".../PySwiftKit")
 } else {
-    .package(url: "https://github.com/KivySwiftLink/PySwiftKit", from: .init(311, 0, 0))
+    .package(url: "https://github.com/kv-swift/PySwiftKit", from: .init(311, 0, 0))
 }
 
 let pykit: Target.Dependency = .product(name: "SwiftonizeModules", package: "PySwiftKit")
