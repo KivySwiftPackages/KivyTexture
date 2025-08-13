@@ -9,14 +9,14 @@ let local = false
 let pykit_package: Package.Dependency = if local {
     .package(path: ".../PySwiftKit")
 } else {
-    .package(url: "https://github.com/kv-swift/PySwiftKit", from: .init(311, 0, 0))
+    .package(url: "https://github.com/py-swift/PySwiftKit", from: .init(311, 0, 0))
 }
 
 let pykit: Target.Dependency = .product(name: "SwiftonizeModules", package: "PySwiftKit")
 
 let package = Package(
     name: "KivyTexture",
-	platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v13), .macOS(.v11)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(

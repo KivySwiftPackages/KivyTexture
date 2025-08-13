@@ -1,8 +1,12 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-
+#if os(iOS)
 import UIKit
+#else
+import Cocoa
+#endif
+
 import CoreGraphics
 
 
@@ -192,7 +196,7 @@ extension CGImage: KivyTextureProtocol {
 		return KivyTexture(cg: self).data
 	}
 }
-
+#if os(iOS)
 extension UIImage: KivyTextureProtocol {
 	public func texture() -> PyPointer {
 		if let cg = cgImage {
@@ -201,3 +205,4 @@ extension UIImage: KivyTextureProtocol {
 		return .None
 	}
 }
+#endif
